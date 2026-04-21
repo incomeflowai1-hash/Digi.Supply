@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digi.Supply — Your Digital Product Supply Chain</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c14;
+  --bg2: #0d1220;
+  --bg3: #111827;
+  --surface: #141c2e;
+  --surface2: #1a2540;
+  --border: rgba(255,255,255,0.06);
+  --accent: #ff8c00;
+  --accent-light: #ffb347;
+  --blue: #3d7fff;
+  --teal: #00d4b4;
+  --pink: #ff4d8d;
+  --text: #e2e8f4;
+  --muted: #5a6a8a;
+  --muted2: #8899bb;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:0.4;}
+.bg-r{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 10% 0%,rgba(255,140,0,0.07) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 90% 100%,rgba(61,127,255,0.07) 0%,transparent 60%);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(8,12,20,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-0.03em;color:#fff;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted2);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-r{display:flex;align-items:center;gap:10px;}
+.cart-btn{position:relative;background:var(--surface2);border:1px solid var(--border);color:var(--text);width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:all 0.2s;}
+.cart-btn:hover{border-color:var(--accent);color:var(--accent);}
+.cbadge{position:absolute;top:-5px;right:-5px;background:var(--accent);color:var(--bg);width:18px;height:18px;border-radius:50%;font-family:'DM Mono',monospace;font-size:0.6rem;display:none;align-items:center;justify-content:center;}
+.cbadge.on{display:flex;}
+.nav-cta{background:var(--accent);color:var(--bg);font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;padding:10px 22px;border:none;cursor:pointer;transition:all 0.2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);}
+.nav-cta:hover{background:var(--accent-light);}
+
+/* TICKER */
+.ticker-bar{margin-top:66px;background:linear-gradient(90deg,var(--accent),#ff6000,var(--accent));color:var(--bg);overflow:hidden;white-space:nowrap;padding:9px 0;}
+.ticker-inner{display:inline-block;animation:tick 28s linear infinite;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* HERO */
+.hero{min-height:calc(100vh - 76px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 5% 60px;position:relative;}
+.hero-glow{position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(255,140,0,0.05) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);background:rgba(255,140,0,0.08);border:1px solid rgba(255,140,0,0.25);padding:6px 16px;margin-bottom:28px;animation:fu 0.6s ease both;}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pu 1.5s ease infinite;}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.8rem,8vw,6.5rem);line-height:0.95;letter-spacing:-0.04em;max-width:860px;animation:fu 0.7s ease 0.1s both;}
+.ghost{color:transparent;-webkit-text-stroke:1.5px var(--accent);}
+.solid{color:var(--accent);display:block;}
+.hero-sub{margin-top:24px;font-size:1rem;color:var(--muted2);max-width:500px;line-height:1.75;font-weight:300;animation:fu 0.7s ease 0.2s both;}
+.hero-btns{display:flex;gap:14px;margin-top:40px;animation:fu 0.7s ease 0.3s both;}
+.btn-hp{background:var(--accent);color:var(--bg);font-family:'DM Mono',monospace;font-weight:500;font-size:0.82rem;letter-spacing:0.07em;text-transform:uppercase;padding:15px 34px;border:none;cursor:pointer;transition:all 0.25s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);}
+.btn-hp:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(255,140,0,0.35);}
+.btn-hs{background:transparent;color:var(--text);font-family:'DM Mono',monospace;font-size:0.82rem;letter-spacing:0.07em;text-transform:uppercase;padding:15px 34px;border:1px solid var(--border);cursor:pointer;transition:all 0.25s;}
+.btn-hs:hover{border-color:var(--accent);color:var(--accent);}
+.hero-stats{display:flex;gap:56px;margin-top:64px;animation:fu 0.7s ease 0.4s both;}
+.sn{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;color:var(--accent);letter-spacing:-0.04em;}
+.sl{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+@keyframes fu{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* SECTIONS */
+section{padding:96px 5%;}
+.sl2{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.st{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.9rem,4vw,3rem);letter-spacing:-0.03em;line-height:1.05;margin-bottom:14px;}
+
+/* CATEGORIES */
+.cat-sec{background:var(--bg2);}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:44px;}
+@media(max-width:768px){.cat-grid{grid-template-columns:repeat(2,1fr);}}
+.cat-card{border:1px solid var(--border);padding:28px 20px;text-align:center;cursor:pointer;transition:all 0.25s;background:var(--surface);position:relative;overflow:hidden;}
+.cat-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--blue));transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
+.cat-card:hover{transform:translateY(-3px);border-color:rgba(255,140,0,0.2);}
+.cat-card:hover::before{transform:scaleX(1);}
+.cat-em{font-size:2rem;margin-bottom:10px;display:block;}
+.cat-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:5px;}
+.cat-n{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;color:var(--muted);}
+
+/* FILTER */
+.filter-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;margin-bottom:36px;}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;}
+.tab{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.09em;text-transform:uppercase;padding:8px 18px;border:1px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all 0.2s;}
+.tab.on,.tab:hover{border-color:var(--accent);color:var(--accent);background:rgba(255,140,0,0.06);}
+
+/* PRODUCT GRID */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;}
+.p-card{background:var(--surface);border:1px solid var(--border);padding:28px;position:relative;transition:all 0.3s;overflow:hidden;cursor:pointer;}
+.p-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--accent),var(--blue));transform:scaleX(0);transform-origin:left;transition:transform 0.35s;}
+.p-card:hover{transform:translateY(-4px);border-color:rgba(255,140,0,0.18);box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+.p-card:hover::after{transform:scaleX(1);}
+.pbhot{position:absolute;top:14px;right:14px;background:var(--pink);color:#fff;font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;}
+.pbnew{position:absolute;top:14px;right:14px;background:var(--teal);color:var(--bg);font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;}
+.ptype{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border:1px solid;display:inline-block;margin-bottom:16px;}
+.ts{color:var(--teal);border-color:rgba(0,212,180,0.3);background:rgba(0,212,180,0.06);}
+.te{color:#f5c842;border-color:rgba(245,200,66,0.3);background:rgba(245,200,66,0.06);}
+.tb{color:#6fa3ff;border-color:rgba(61,127,255,0.3);background:rgba(61,127,255,0.06);}
+.pico{width:48px;height:48px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px;background:rgba(255,255,255,0.03);}
+.ptitle{font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.02em;margin-bottom:8px;}
+.pdesc{font-size:0.84rem;color:var(--muted2);line-height:1.65;font-weight:300;margin-bottom:20px;}
+.ptags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:22px;}
+.ptag{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.05em;color:var(--muted);background:rgba(255,255,255,0.04);padding:3px 9px;border:1px solid var(--border);}
+.pfoot{display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid var(--border);}
+.pprice{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--accent);letter-spacing:-0.03em;}
+.porig{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);text-decoration:line-through;display:block;margin-bottom:2px;}
+.pbuy{background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding:9px 16px;cursor:pointer;transition:all 0.2s;}
+.pbuy:hover{background:var(--accent);color:var(--bg);}
+
+/* FEATURED */
+.p-card.featured{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;background:linear-gradient(135deg,#0d1525,#111e35);border-color:rgba(255,140,0,0.12);}
+@media(max-width:768px){.p-card.featured{grid-column:span 1;grid-template-columns:1fr;}}
+.feat-vis{background:rgba(255,140,0,0.04);border:1px solid rgba(255,140,0,0.1);padding:24px;display:flex;flex-direction:column;gap:0;}
+.feat-row{display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--muted2);font-weight:300;padding:9px 0;border-bottom:1px solid var(--border);}
+.feat-row:last-child{border-bottom:none;}
+.feat-row span:first-child{font-size:1rem;}
+
+/* TESTIMONIALS */
+.testi-sec{background:var(--bg3);}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px;}
+@media(max-width:900px){.tgrid{grid-template-columns:1fr;}}
+.tc{border:1px solid var(--border);padding:26px;background:var(--surface);transition:border-color 0.2s;}
+.tc:hover{border-color:rgba(255,140,0,0.2);}
+.stars{color:#f5c842;font-size:0.8rem;margin-bottom:12px;}
+.tq{font-size:0.9rem;line-height:1.72;color:var(--text);font-weight:300;font-style:italic;margin-bottom:20px;}
+.ta{display:flex;align-items:center;gap:10px;}
+.tav{width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:0.75rem;color:var(--bg);}
+.tn{font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;}
+.tr{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;}
+
+/* PRICING */
+.pr-sec{background:var(--bg);}
+.pr-wrap{text-align:center;margin-bottom:52px;}
+.pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:880px;margin:0 auto;}
+@media(max-width:768px){.pr-grid{grid-template-columns:1fr;}}
+.prc{border:1px solid var(--border);padding:32px 26px;background:var(--surface);position:relative;transition:transform 0.25s;}
+.prc:hover{transform:translateY(-4px);}
+.prc.hot{border-color:var(--accent);background:linear-gradient(160deg,rgba(255,140,0,0.07),rgba(8,12,20,0));}
+.pr-pop{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--bg);font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:4px 14px;white-space:nowrap;}
+.pr-tier{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted2);margin-bottom:14px;}
+.pr-price{font-family:'Syne',sans-serif;font-weight:800;font-size:2.6rem;letter-spacing:-0.04em;margin-bottom:4px;}
+.pr-price sub{font-size:0.9rem;font-weight:400;color:var(--muted);}
+.pr-desc{font-size:0.82rem;color:var(--muted2);margin-bottom:24px;font-weight:300;}
+.pr-feats{list-style:none;margin-bottom:28px;}
+.pr-feats li{font-size:0.82rem;color:var(--text);padding:7px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-weight:300;}
+.pr-feats li::before{content:'→';color:var(--accent);font-size:0.7rem;}
+.btn-pr{width:100%;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;padding:13px;cursor:pointer;transition:all 0.2s;border:1px solid var(--accent);background:transparent;color:var(--accent);}
+.prc.hot .btn-pr{background:var(--accent);color:var(--bg);}
+.btn-pr:hover{background:var(--accent);color:var(--bg);}
+
+/* NEWSLETTER */
+.nl-sec{text-align:center;padding:80px 5%;background:linear-gradient(135deg,#0b1220,#0d1a10);border-top:1px solid rgba(255,140,0,0.1);border-bottom:1px solid rgba(255,140,0,0.1);}
+.nl-inner{max-width:520px;margin:0 auto;}
+.nl-sec h2{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;letter-spacing:-0.03em;margin-bottom:10px;}
+.nl-sec p{color:var(--muted2);font-weight:300;margin-bottom:28px;}
+.nl-form{display:flex;max-width:420px;margin:0 auto;}
+.nl-form input{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-right:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;padding:13px 16px;outline:none;transition:border-color 0.2s;}
+.nl-form input:focus{border-color:var(--accent);}
+.nl-form button{background:var(--accent);color:var(--bg);font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:13px 22px;border:none;cursor:pointer;transition:background 0.2s;white-space:nowrap;}
+.nl-form button:hover{background:var(--accent-light);}
+
+/* FOOTER */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:56px 5% 36px;}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:44px;}
+@media(max-width:768px){.fg{grid-template-columns:1fr 1fr;}}
+.fb p{font-size:0.85rem;color:var(--muted);margin-top:10px;font-weight:300;line-height:1.65;max-width:240px;}
+.fc h4{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+.fc ul{list-style:none;}
+.fc li{margin-bottom:9px;}
+.fc a{font-size:0.84rem;color:var(--muted2);text-decoration:none;font-weight:300;transition:color 0.2s;}
+.fc a:hover{color:var(--accent);}
+.fbot{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);}
+
+/* CART DRAWER */
+.d-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:500;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.d-overlay.open{opacity:1;pointer-events:all;}
+.cart-drawer{position:fixed;top:0;right:0;bottom:0;width:420px;background:var(--bg2);border-left:1px solid var(--border);z-index:501;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);}
+.cart-drawer.open{transform:translateX(0);}
+@media(max-width:480px){.cart-drawer{width:100%;}}
+.dh{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid var(--border);}
+.dh h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-0.02em;}
+.dclose{background:none;border:none;color:var(--muted2);font-size:1.2rem;cursor:pointer;transition:color 0.2s;}
+.dclose:hover{color:var(--text);}
+.ditems{flex:1;overflow-y:auto;padding:16px 24px;}
+.cempty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);}
+.cempty span{font-size:2.5rem;}
+.citem{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);}
+.cico{width:44px;height:44px;flex-shrink:0;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.3rem;}
+.cinfo{flex:1;}
+.cname{font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:4px;}
+.ctype{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);}
+.cprice{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--accent);}
+.cremove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;transition:color 0.2s;margin-top:2px;}
+.cremove:hover{color:var(--pink);}
+.dfoot{padding:20px 24px;border-top:1px solid var(--border);}
+.dsub{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.dsub span:first-child{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);}
+.dtotal{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--accent);}
+.dsav{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--teal);letter-spacing:0.06em;margin-bottom:16px;}
+.btn-co{width:100%;background:var(--accent);color:var(--bg);font-family:'DM Mono',monospace;font-weight:500;font-size:0.8rem;letter-spacing:0.09em;text-transform:uppercase;padding:16px;border:none;cursor:pointer;transition:all 0.2s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);}
+.btn-co:hover{background:var(--accent-light);transform:translateY(-1px);}
+.dtrust{display:flex;justify-content:center;gap:20px;margin-top:14px;}
+.dtrust span{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:5px;}
+
+/* CHECKOUT */
+.co-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(12px);z-index:600;display:none;align-items:center;justify-content:center;padding:20px;}
+.co-overlay.open{display:flex;}
+.co-box{background:var(--bg2);border:1px solid rgba(255,140,0,0.2);width:100%;max-width:500px;position:relative;animation:si 0.3s ease;}
+@keyframes si{from{opacity:0;transform:translateY(24px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.co-x{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted2);font-size:1.1rem;cursor:pointer;}
+.co-x:hover{color:var(--text);}
+.co-steps{display:flex;border-bottom:1px solid var(--border);}
+.co-step{flex:1;padding:14px;text-align:center;font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid transparent;transition:all 0.2s;}
+.co-step.active{color:var(--accent);border-bottom-color:var(--accent);}
+.co-step.done{color:var(--teal);}
+.co-body{padding:28px;}
+.co-body h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-0.02em;margin-bottom:20px;}
+.co-field{margin-bottom:15px;}
+.co-field label{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px;}
+.co-field input,.co-field select{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;padding:12px 14px;outline:none;transition:border-color 0.2s;-webkit-appearance:none;appearance:none;}
+.co-field input:focus,.co-field select:focus{border-color:var(--accent);}
+.co-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.co-summary{background:var(--bg3);border:1px solid var(--border);padding:16px;margin-bottom:20px;}
+.co-sitem{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.84rem;}
+.co-sitem:last-child{border-bottom:none;}
+.co-stotal{display:flex;justify-content:space-between;padding-top:12px;margin-top:4px;font-family:'Syne',sans-serif;font-weight:800;}
+.co-stprice{color:var(--accent);font-size:1.2rem;}
+.card-icons{display:flex;gap:8px;margin-bottom:16px;}
+.card-ico{background:rgba(255,255,255,0.06);border:1px solid var(--border);padding:4px 10px;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.06em;color:var(--muted2);}
+.btn-next{width:100%;background:var(--accent);color:var(--bg);font-family:'DM Mono',monospace;font-weight:500;font-size:0.8rem;letter-spacing:0.09em;text-transform:uppercase;padding:15px;border:none;cursor:pointer;transition:all 0.2s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);margin-top:4px;}
+.btn-next:hover{background:var(--accent-light);}
+.btn-back{width:100%;background:transparent;color:var(--muted2);font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;padding:11px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;margin-top:8px;}
+.btn-back:hover{border-color:var(--accent);color:var(--accent);}
+.co-info-box{background:var(--bg3);border:1px solid var(--border);padding:14px;margin-bottom:18px;font-size:0.82rem;color:var(--muted2);font-weight:300;line-height:1.6;}
+.co-success{text-align:center;padding:40px 30px;}
+.check-circ{width:72px;height:72px;background:rgba(0,212,180,0.1);border:2px solid var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 20px;}
+.co-success h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:8px;}
+.co-success p{color:var(--muted2);font-weight:300;line-height:1.6;margin-bottom:24px;}
+.btn-done{background:var(--accent);color:var(--bg);font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;padding:13px 32px;border:none;cursor:pointer;}
+.btn-done:hover{background:var(--accent-light);}
+
+/* PRODUCT MODAL */
+.pm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:400;display:none;align-items:center;justify-content:center;padding:20px;}
+.pm-overlay.open{display:flex;}
+.pm-box{background:var(--bg2);border:1px solid rgba(255,140,0,0.18);max-width:540px;width:100%;padding:36px;position:relative;animation:si 0.28s ease;}
+.pm-x{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted2);font-size:1.1rem;cursor:pointer;}
+.pm-x:hover{color:var(--text);}
+.pm-feats{list-style:none;margin-bottom:24px;background:var(--bg3);border:1px solid var(--border);padding:18px;}
+.pm-feats li{font-size:0.82rem;color:var(--text);padding:6px 0;display:flex;gap:10px;font-weight:300;border-bottom:1px solid var(--border);}
+.pm-feats li:last-child{border-bottom:none;}
+.pm-feats li::before{content:'✓';color:var(--teal);flex-shrink:0;}
+.pm-pricing{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.pm-price{font-family:'Syne',sans-serif;font-weight:800;font-size:1.9rem;color:var(--accent);}
+.pm-buy{width:100%;background:var(--accent);color:var(--bg);font-family:'DM Mono',monospace;font-weight:500;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;padding:14px;border:none;cursor:pointer;transition:all 0.2s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);}
+.pm-buy:hover{background:var(--accent-light);}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;z-index:700;background:var(--accent);color:var(--bg);font-family:'DM Mono',monospace;font-size:0.74rem;letter-spacing:0.06em;padding:13px 22px;transform:translateY(80px);opacity:0;transition:all 0.3s ease;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+<div class="bg-r"></div>
+<div class="toast" id="toast"></div>
+
+<!-- CART DRAWER -->
+<div class="d-overlay" id="dOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="dh">
+    <h3>Your Cart <span id="dCount" style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--muted);font-weight:400;"></span></h3>
+    <button class="dclose" onclick="closeCart()">✕</button>
+  </div>
+  <div class="ditems" id="dItems">
+    <div class="cempty" id="cEmpty"><span>🛒</span><div>Your cart is empty</div></div>
+  </div>
+  <div class="dfoot" id="dFoot" style="display:none;">
+    <div class="dsub"><span>Order Total</span><span class="dtotal" id="dTotal">$0</span></div>
+    <div class="dsav" id="dSav"></div>
+    <button class="btn-co" onclick="openCheckout()">Proceed to Checkout →</button>
+    <div class="dtrust"><span>🔒 Secure</span><span>⚡ Instant</span><span>✅ Guaranteed</span></div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="pm-overlay" id="pmOverlay" onclick="closePM(event)">
+  <div class="pm-box">
+    <button class="pm-x" onclick="closePM()">✕</button>
+    <div id="pmType" style="margin-bottom:16px;"></div>
+    <div id="pmTitle" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;letter-spacing:-0.03em;margin-bottom:10px;"></div>
+    <div id="pmDesc" style="font-size:0.87rem;color:var(--muted2);line-height:1.7;font-weight:300;margin-bottom:20px;"></div>
+    <ul class="pm-feats" id="pmFeats"></ul>
+    <div class="pm-pricing"><div class="pm-price" id="pmPrice"></div><span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);">One-time · Lifetime access</span></div>
+    <button class="pm-buy" id="pmBuyBtn">Add to Cart</button>
+  </div>
+</div>
+
+<!-- CHECKOUT -->
+<div class="co-overlay" id="coOverlay">
+  <div class="co-box">
+    <button class="co-x" onclick="closeCheckout()">✕</button>
+    <div class="co-steps">
+      <div class="co-step active" id="cst1">① Info</div>
+      <div class="co-step" id="cst2">② Payment</div>
+      <div class="co-step" id="cst3">③ Confirm</div>
+    </div>
+    <div class="co-body" id="cs1">
+      <h3>Contact Info</h3>
+      <div class="co-summary" id="coSum1"></div>
+      <div class="co-field"><label>Full Name</label><input type="text" id="coName" placeholder="Jane Smith"></div>
+      <div class="co-field"><label>Email Address</label><input type="email" id="coEmail" placeholder="jane@example.com"></div>
+      <div class="co-row">
+        <div class="co-field"><label>Country</label><select id="coCo"><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option><option>Other</option></select></div>
+        <div class="co-field"><label>State</label><input type="text" id="coSt" placeholder="Oklahoma"></div>
+      </div>
+      <button class="btn-next" onclick="gS2()">Continue to Payment →</button>
+    </div>
+    <div class="co-body" id="cs2" style="display:none;">
+      <h3>Payment Details</h3>
+      <div class="card-icons"><span class="card-ico">VISA</span><span class="card-ico">MC</span><span class="card-ico">AMEX</span><span class="card-ico">PAYPAL</span></div>
+      <div class="co-field"><label>Card Number</label><input type="text" id="coCard" placeholder="4242 4242 4242 4242" maxlength="19" oninput="fmtC(this)"></div>
+      <div class="co-row">
+        <div class="co-field"><label>Expiry</label><input type="text" id="coExp" placeholder="MM / YY" maxlength="7" oninput="fmtE(this)"></div>
+        <div class="co-field"><label>CVV</label><input type="text" id="coCVV" placeholder="•••" maxlength="4"></div>
+      </div>
+      <div class="co-field"><label>Name on Card</label><input type="text" id="coCN" placeholder="Jane Smith"></div>
+      <button class="btn-next" onclick="gS3()">Review Order →</button>
+      <button class="btn-back" onclick="gS1()">← Back</button>
+    </div>
+    <div class="co-body" id="cs3" style="display:none;">
+      <h3>Review & Confirm</h3>
+      <div class="co-summary" id="coSum3"></div>
+      <div class="co-info-box">📧 Download links will be sent to <strong id="coConfEm" style="color:var(--text);"></strong> immediately after purchase.</div>
+      <button class="btn-next" onclick="completeOrder()">Complete Purchase 🔒</button>
+      <button class="btn-back" onclick="gS2back()">← Back to Payment</button>
+    </div>
+    <div class="co-success" id="coSucc" style="display:none;">
+      <div class="check-circ">✓</div>
+      <h3>Order Complete! 🎉</h3>
+      <p>Your digital products are on the way. Download links sent to your inbox instantly. Welcome to Digi.Supply!</p>
+      <button class="btn-done" onclick="closeCheckout();resetCart();">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Digi<span style="color:var(--accent);">.Supply</span></div>
+  <ul class="nav-links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#categories">Categories</a></li>
+    <li><a href="#pricing">Bundles</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+  </ul>
+  <div class="nav-r">
+    <button class="cart-btn" onclick="openCart()">🛒<span class="cbadge" id="cbadge">0</span></button>
+    <button class="nav-cta" onclick="openCart()">My Cart</button>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <span class="ticker-inner">⚡ Instant Delivery &nbsp;·&nbsp; ✅ Lifetime Access &nbsp;·&nbsp; 🔧 Full Source Code &nbsp;·&nbsp; 📖 DFY Ebooks with PLR &nbsp;·&nbsp; 🚀 Launch-Ready SaaS &nbsp;·&nbsp; 💳 Secure Checkout &nbsp;·&nbsp; 🎯 No Monthly Fees &nbsp;·&nbsp; 💰 Keep 100% of Profits &nbsp;·&nbsp; ⚡ Instant Delivery &nbsp;·&nbsp; ✅ Lifetime Access &nbsp;·&nbsp; 🔧 Full Source Code &nbsp;·&nbsp; 📖 DFY Ebooks with PLR &nbsp;·&nbsp; 🚀 Launch-Ready SaaS &nbsp;·&nbsp; 💳 Secure Checkout &nbsp;·&nbsp; 🎯 No Monthly Fees &nbsp;·&nbsp; 💰 Keep 100% of Profits &nbsp;·&nbsp;</span>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-pill"><div class="pill-dot"></div> Your Digital Product Supply Chain</div>
+  <h1><span class="ghost">Build</span> <em style="font-style:normal;color:var(--accent)">Faster.</em><span class="solid">Launch Today.</span></h1>
+  <p class="hero-sub">Grab launch-ready micro SaaS tools and done-for-you ebooks with full resale rights. Instant delivery, lifetime access, zero subscriptions.</p>
+  <div class="hero-btns">
+    <button class="btn-hp" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Browse Products →</button>
+    <button class="btn-hs" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">See Bundles</button>
+  </div>
+  <div class="hero-stats">
+    <div><div class="sn">54+</div><div class="sl">Products</div></div>
+    <div><div class="sn">4.1k</div><div class="sl">Customers</div></div>
+    <div><div class="sn">4.9★</div><div class="sl">Avg Rating</div></div>
+    <div><div class="sn">100%</div><div class="sl">Instant Access</div></div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="cat-sec" id="categories">
+  <div class="sl2">Browse by Type</div>
+  <div class="st">What Are You Building?</div>
+  <div class="cat-grid reveal">
+    <div class="cat-card" onclick="filterP('saas',null)"><span class="cat-em">⚙️</span><div class="cat-name">Micro SaaS Tools</div><div class="cat-n">22 Products</div></div>
+    <div class="cat-card" onclick="filterP('ebook',null)"><span class="cat-em">📘</span><div class="cat-name">DFY Ebooks (PLR)</div><div class="cat-n">26 Products</div></div>
+    <div class="cat-card" onclick="filterP('bundle',null)"><span class="cat-em">📦</span><div class="cat-name">Mega Bundles</div><div class="cat-n">6 Products</div></div>
+    <div class="cat-card"><span class="cat-em">🎓</span><div class="cat-name">Launch Courses</div><div class="cat-n">Coming Soon</div></div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="filter-row">
+    <div><div class="sl2">Catalog</div><div class="st">All Products</div></div>
+    <div class="tabs">
+      <button class="tab on" onclick="filterP('all',this)">All</button>
+      <button class="tab" onclick="filterP('saas',this)">Micro SaaS</button>
+      <button class="tab" onclick="filterP('ebook',this)">DFY Ebooks</button>
+      <button class="tab" onclick="filterP('bundle',this)">Bundles</button>
+    </div>
+  </div>
+  <div class="product-grid" id="pg">
+
+    <!-- FEATURED -->
+    <div class="p-card featured reveal" data-type="bundle">
+      <div>
+        <span class="ptype tb">🔥 Mega Bundle</span>
+        <div class="ptitle">Ultimate Founder Stack</div>
+        <div class="pdesc">The complete digital business: 10 micro SaaS tools + 18 DFY ebooks + sales funnels + private community. Launch a profitable digital product business in 30 days or less.</div>
+        <div class="ptags"><span class="ptag">10 SaaS Tools</span><span class="ptag">18 Ebooks PLR</span><span class="ptag">Sales Funnels</span><span class="ptag">Lifetime</span></div>
+        <div class="pfoot"><div><span class="porig">$597</span><span class="pprice">$97</span></div><button class="pbuy" onclick="addToCart('Ultimate Founder Stack','bundle',97,'📦')">Add to Cart</button></div>
+      </div>
+      <div class="feat-vis">
+        <div class="feat-row"><span>⚙️</span><span>WaitlistKit Pro SaaS</span></div>
+        <div class="feat-row"><span>📊</span><span>AnalyticsEdge Dashboard</span></div>
+        <div class="feat-row"><span>🤖</span><span>ChatFlow AI Widget</span></div>
+        <div class="feat-row"><span>💳</span><span>InvoiceFlow + FormVault</span></div>
+        <div class="feat-row"><span>📖</span><span>18 Branded PLR Ebooks</span></div>
+        <div class="feat-row"><span>🎯</span><span>Done-for-You Sales Funnels</span></div>
+        <div class="feat-row"><span>💬</span><span>Private Discord Community</span></div>
+        <div class="feat-row"><span>♾️</span><span>Lifetime Updates Included</span></div>
+      </div>
+    </div>
+
+    <!-- SAAS -->
+    <div class="p-card reveal" data-type="saas"><span class="pbhot">Hot</span><span class="ptype ts">⚙️ Micro SaaS</span><div class="pico">🚀</div><div class="ptitle">WaitlistKit Pro</div><div class="pdesc">Full-stack viral waitlist SaaS. Referral engine, email sequences, dashboard. Next.js + Supabase. Deploy in minutes.</div><div class="ptags"><span class="ptag">Next.js</span><span class="ptag">Supabase</span><span class="ptag">Stripe</span></div><div class="pfoot"><div><span class="porig">$149</span><span class="pprice">$49</span></div><button class="pbuy" onclick="openPM('WaitlistKit Pro','saas',49,'🚀',['Full source code + Figma files','Viral referral engine built-in','Email automation (Resend/Postmark)','Stripe billing integration','One-click Vercel deploy','Video walkthrough + docs'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="saas"><span class="pbnew">New</span><span class="ptype ts">⚙️ Micro SaaS</span><div class="pico">📊</div><div class="ptitle">AnalyticsEdge</div><div class="pdesc">White-label analytics dashboard SaaS. Sell insights to small businesses. Client management + automated reports.</div><div class="ptags"><span class="ptag">React</span><span class="ptag">Node.js</span><span class="ptag">White-label</span></div><div class="pfoot"><div><span class="porig">$199</span><span class="pprice">$67</span></div><button class="pbuy" onclick="openPM('AnalyticsEdge','saas',67,'📊',['Full white-label dashboard','Multi-client management','PDF report generator','GA, Meta, TikTok integrations','Resell for $500+/month','Setup guide + client scripts'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="saas"><span class="ptype ts">⚙️ Micro SaaS</span><div class="pico">🤖</div><div class="ptitle">ChatFlow AI Widget</div><div class="pdesc">Embeddable GPT-4 chatbot SaaS. Custom training, lead capture, reseller dashboard. Charge $97–$297/mo per client.</div><div class="ptags"><span class="ptag">GPT-4</span><span class="ptag">Embeddable</span><span class="ptag">Reseller</span></div><div class="pfoot"><div><span class="porig">$179</span><span class="pprice">$59</span></div><button class="pbuy" onclick="openPM('ChatFlow AI Widget','saas',59,'🤖',['GPT-4 Turbo powered backend','Custom knowledge base training','Embed on any website (1 line)','Lead capture + CRM export','Full reseller dashboard','Charge clients $97–$297/mo'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="saas"><span class="ptype ts">⚙️ Micro SaaS</span><div class="pico">📋</div><div class="ptitle">FormVault</div><div class="pdesc">Typeform alternative SaaS. Unlimited forms, collect payments, route submissions. Launch-ready subscription business.</div><div class="ptags"><span class="ptag">SvelteKit</span><span class="ptag">PostgreSQL</span><span class="ptag">Payments</span></div><div class="pfoot"><div><span class="porig">$129</span><span class="pprice">$44</span></div><button class="pbuy" onclick="openPM('FormVault','saas',44,'📋',['Unlimited form builder','Payment collection built-in','Conditional logic + routing','Webhook integrations','Multi-workspace support','Full source + deploy guide'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="saas"><span class="pbnew">New</span><span class="ptype ts">⚙️ Micro SaaS</span><div class="pico">💳</div><div class="ptitle">InvoiceFlow</div><div class="pdesc">Beautiful invoicing SaaS for freelancers. Auto-reminders, recurring billing, client portal. Resell as a subscription tool.</div><div class="ptags"><span class="ptag">Next.js</span><span class="ptag">Stripe</span><span class="ptag">PDF Export</span></div><div class="pfoot"><div><span class="porig">$159</span><span class="pprice">$54</span></div><button class="pbuy" onclick="openPM('InvoiceFlow','saas',54,'💳',['Branded invoice builder','Auto payment reminders','Recurring invoice support','Client-facing payment portal','PDF + CSV export','Stripe Connect for payouts'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="saas"><span class="ptype ts">⚙️ Micro SaaS</span><div class="pico">🔗</div><div class="ptitle">LinkStack Pro</div><div class="pdesc">Linktree competitor SaaS. Beautiful link pages, analytics, custom domains. Charge $7–$19/mo per user.</div><div class="ptags"><span class="ptag">React</span><span class="ptag">Multi-tenant</span><span class="ptag">Analytics</span></div><div class="pfoot"><div><span class="porig">$119</span><span class="pprice">$39</span></div><button class="pbuy" onclick="openPM('LinkStack Pro','saas',39,'🔗',['Unlimited link pages','Real-time analytics','Custom domain support','QR code generator','Social preview editor','Full white-label branding'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="saas"><span class="pbhot">Hot</span><span class="ptype ts">⚙️ Micro SaaS</span><div class="pico">📅</div><div class="ptitle">BookMySlot</div><div class="pdesc">Calendly alternative SaaS. Sell scheduling to coaches, consultants, agencies. Google Cal + Zoom sync included.</div><div class="ptags"><span class="ptag">Vue.js</span><span class="ptag">Google Cal</span><span class="ptag">Zoom</span></div><div class="pfoot"><div><span class="porig">$139</span><span class="pprice">$47</span></div><button class="pbuy" onclick="openPM('BookMySlot','saas',47,'📅',['Unlimited booking pages','Google Calendar + Zoom sync','Buffer time + availability rules','Automated email confirmations','Embeddable widget','Reseller-ready dashboard'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="saas"><span class="pbnew">New</span><span class="ptype ts">⚙️ Micro SaaS</span><div class="pico">📣</div><div class="ptitle">ReviewBoost</div><div class="pdesc">Reputation management SaaS for local businesses. Automate Google review requests via SMS. Sell as an agency service.</div><div class="ptags"><span class="ptag">Twilio SMS</span><span class="ptag">Google API</span><span class="ptag">Agency</span></div><div class="pfoot"><div><span class="porig">$169</span><span class="pprice">$57</span></div><button class="pbuy" onclick="openPM('ReviewBoost','saas',57,'📣',['Automated SMS review requests','Google Business Profile integration','Review filtering + response templates','Multi-location business support','White-label client portal','Charge clients $149–$299/mo'])">Details</button></div></div>
+
+    <!-- EBOOKS -->
+    <div class="p-card reveal" data-type="ebook"><span class="pbhot">Best Seller</span><span class="ptype te">📖 DFY Ebook</span><div class="pico">💰</div><div class="ptitle">$10K/Month Digital Blueprint</div><div class="pdesc">120-page done-for-you ebook with full PLR. Rebrand, resell, keep 100% of profits. Canva template + sales page included.</div><div class="ptags"><span class="ptag">PLR Rights</span><span class="ptag">Canva</span><span class="ptag">Sales Page</span></div><div class="pfoot"><div><span class="porig">$79</span><span class="pprice">$27</span></div><button class="pbuy" onclick="openPM('$10K/Month Digital Blueprint','ebook',27,'💰',['120-page fully written ebook (PDF)','Private Label Rights — rebrand as yours','Editable Canva source file','Done-for-you sales page copy','5-email welcome sequence','Social media promo graphics'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="ebook"><span class="ptype te">📖 DFY Ebook</span><div class="pico">🧠</div><div class="ptitle">AI Side Hustle Playbook</div><div class="pdesc">78-page DFY guide: 25 proven AI income streams. MRR license, editable Canva source, plug-and-play funnel.</div><div class="ptags"><span class="ptag">MRR License</span><span class="ptag">Funnel Ready</span><span class="ptag">Editable</span></div><div class="pfoot"><div><span class="porig">$57</span><span class="pprice">$19</span></div><button class="pbuy" onclick="openPM('AI Side Hustle Playbook','ebook',19,'🧠',['78-page AI income streams guide','Master Resale Rights included','Canva source file (fully editable)','Complete sales funnel template','Upsell sequence included','Sell-ready in 24 hours'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="ebook"><span class="pbnew">New</span><span class="ptype te">📖 DFY Ebook</span><div class="pico">🏗️</div><div class="ptitle">SaaS Founder's Handbook</div><div class="pdesc">95-page playbook for launching micro SaaS without a dev team. PLR license, 3 bonus worksheets, launch checklist.</div><div class="ptags"><span class="ptag">PLR Rights</span><span class="ptag">95 Pages</span><span class="ptag">Worksheets</span></div><div class="pfoot"><div><span class="porig">$67</span><span class="pprice">$24</span></div><button class="pbuy" onclick="openPM('SaaS Founder\'s Handbook','ebook',24,'🏗️',['95 pages of actionable frameworks','Private Label Rights','3 worksheets + launch checklist','Editable in Canva or Word','Readymade product mockups','Bonus: 30-day launch calendar'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="ebook"><span class="ptype te">📖 DFY Ebook</span><div class="pico">📱</div><div class="ptitle">Social Media Money Machine</div><div class="pdesc">63-page DFY guide to monetizing any social audience. Full PLR. Includes Instagram, TikTok, and YouTube playbooks.</div><div class="ptags"><span class="ptag">PLR Rights</span><span class="ptag">Multi-Platform</span><span class="ptag">Canva</span></div><div class="pfoot"><div><span class="porig">$49</span><span class="pprice">$17</span></div><button class="pbuy" onclick="addToCart('Social Media Money Machine','ebook',17,'📱')">Add to Cart</button></div></div>
+
+    <div class="p-card reveal" data-type="ebook"><span class="pbnew">New</span><span class="ptype te">📖 DFY Ebook</span><div class="pico">🎯</div><div class="ptitle">Email List Goldmine</div><div class="pdesc">85-page complete guide to building and monetizing an email list from zero. Lead magnets, sequences, monetization. Full PLR.</div><div class="ptags"><span class="ptag">PLR Rights</span><span class="ptag">85 Pages</span><span class="ptag">Templates</span></div><div class="pfoot"><div><span class="porig">$59</span><span class="pprice">$22</span></div><button class="pbuy" onclick="openPM('Email List Goldmine','ebook',22,'🎯',['85-page email marketing guide','Private Label Rights','10 proven lead magnet templates','30-day email sequence (editable)','Monetization strategy breakdown','Canva covers + social graphics'])">Details</button></div></div>
+
+    <div class="p-card reveal" data-type="ebook"><span class="ptype te">📖 DFY Ebook</span><div class="pico">🛒</div><div class="ptitle">Dropshipping Domination</div><div class="pdesc">72-page DFY dropshipping blueprint: product research, supplier sourcing, store setup, ads. MRR license included.</div><div class="ptags"><span class="ptag">MRR License</span><span class="ptag">72 Pages</span><span class="ptag">Ads Guide</span></div><div class="pfoot"><div><span class="porig">$54</span><span class="pprice">$18</span></div><button class="pbuy" onclick="addToCart('Dropshipping Domination','ebook',18,'🛒')">Add to Cart</button></div></div>
+
+    <div class="p-card reveal" data-type="ebook"><span class="pbnew">New</span><span class="ptype te">📖 DFY Ebook</span><div class="pico">🏠</div><div class="ptitle">Surplus Funds Profit Guide</div><div class="pdesc">67-page DFY guide to the surplus funds recovery business. Scripts, letter templates, county search strategy. Full PLR rights.</div><div class="ptags"><span class="ptag">PLR Rights</span><span class="ptag">67 Pages</span><span class="ptag">Scripts</span></div><div class="pfoot"><div><span class="porig">$72</span><span class="pprice">$29</span></div><button class="pbuy" onclick="openPM('Surplus Funds Profit Guide','ebook',29,'🏠',['67-page surplus funds recovery guide','Private Label Rights','Letter + script templates included','County search strategy breakdown','Homeowner outreach campaigns','Editable Canva source file'])">Details</button></div></div>
+
+    <!-- BUNDLES -->
+    <div class="p-card reveal" data-type="bundle"><span class="ptype tb">📦 Bundle</span><div class="pico">🌱</div><div class="ptitle">Starter Digital Pack</div><div class="pdesc">Perfect entry point: 3 bestselling DFY ebooks with PLR + 1 SaaS template + ready-made sales pages. Launch today.</div><div class="ptags"><span class="ptag">3 Ebooks PLR</span><span class="ptag">1 SaaS Tool</span><span class="ptag">Sales Pages</span></div><div class="pfoot"><div><span class="porig">$97</span><span class="pprice">$27</span></div><button class="pbuy" onclick="addToCart('Starter Digital Pack','bundle',27,'🌱')">Add to Cart</button></div></div>
+
+    <div class="p-card reveal" data-type="bundle"><span class="ptype tb">📦 Bundle</span><div class="pico">⚡</div><div class="ptitle">SaaS Builder Pack</div><div class="pdesc">5 launch-ready micro SaaS templates bundled at 70% off. WaitlistKit, ChatFlow, FormVault, LinkStack, BookMySlot.</div><div class="ptags"><span class="ptag">5 SaaS Tools</span><span class="ptag">Source Code</span><span class="ptag">70% Off</span></div><div class="pfoot"><div><span class="porig">$238</span><span class="pprice">$79</span></div><button class="pbuy" onclick="addToCart('SaaS Builder Pack','bundle',79,'⚡')">Add to Cart</button></div></div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-sec" id="testimonials">
+  <div class="sl2">Social Proof</div>
+  <div class="st">Builders Love Digi.Supply</div>
+  <div class="tgrid reveal">
+    <div class="tc"><div class="stars">★★★★★</div><div class="tq">"Bought WaitlistKit, deployed in 2 hours, and had my first paying customer 3 days later. Not a course — an actual business in a box."</div><div class="ta"><div class="tav" style="background:linear-gradient(135deg,var(--accent),#ff6000)">MR</div><div><div class="tn">Marcus R.</div><div class="tr">Solo Founder · Austin, TX</div></div></div></div>
+    <div class="tc"><div class="stars">★★★★★</div><div class="tq">"Rebranded the AI Side Hustle ebook in a weekend and made $840 in my first week selling it. The PLR rights alone are worth 10x the price."</div><div class="ta"><div class="tav" style="background:linear-gradient(135deg,var(--teal),var(--blue))">TN</div><div><div class="tn">Tasha N.</div><div class="tr">Digital Product Seller</div></div></div></div>
+    <div class="tc"><div class="stars">★★★★★</div><div class="tq">"Grabbed the Founder Stack. ChatFlow AI Widget alone is worth 10x the price. Currently charging clients $197/mo and scaling."</div><div class="ta"><div class="tav" style="background:linear-gradient(135deg,var(--pink),var(--accent))">JL</div><div><div class="tn">Jordan L.</div><div class="tr">Agency Owner · Miami, FL</div></div></div></div>
+    <div class="tc"><div class="stars">★★★★★</div><div class="tq">"InvoiceFlow is my biggest win. Sold it to 3 local contractors at $29/mo each. ROI on day one. The checkout experience was buttery smooth."</div><div class="ta"><div class="tav" style="background:linear-gradient(135deg,var(--blue),var(--teal))">AK</div><div><div class="tn">Amir K.</div><div class="tr">Freelance Dev · Chicago, IL</div></div></div></div>
+    <div class="tc"><div class="stars">★★★★★</div><div class="tq">"The Surplus Funds ebook basically handed me a new business model. Rebranded it with my logo and sold 39 copies in the first 3 weeks."</div><div class="ta"><div class="tav" style="background:linear-gradient(135deg,#9b59b6,var(--pink))">SR</div><div><div class="tn">Sofia R.</div><div class="tr">Course Creator · Toronto</div></div></div></div>
+    <div class="tc"><div class="stars">★★★★★</div><div class="tq">"BookMySlot looks better than Calendly. White-labeled it and now charge 12 coaching clients $17/mo each. Set it and forget it."</div><div class="ta"><div class="tav" style="background:linear-gradient(135deg,var(--accent),var(--teal))">DW</div><div><div class="tn">Devon W.</div><div class="tr">Business Coach · Atlanta</div></div></div></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pr-sec" id="pricing">
+  <div class="pr-wrap"><div class="sl2">Bundle Pricing</div><div class="st">Pick Your Stack</div><p style="color:var(--muted2);font-weight:300;margin-top:8px;">All bundles include instant delivery and lifetime access</p></div>
+  <div class="pr-grid reveal">
+    <div class="prc"><div class="pr-tier">Starter</div><div class="pr-price">$27<sub>/one-time</sub></div><div class="pr-desc">Perfect for beginners</div><ul class="pr-feats"><li>3 DFY Ebooks (PLR)</li><li>1 Micro SaaS Template</li><li>Sales page copy</li><li>Email support</li></ul><button class="btn-pr" onclick="addToCart('Starter Bundle','bundle',27,'🌱')">Get Starter →</button></div>
+    <div class="prc hot"><div class="pr-pop">Most Popular</div><div class="pr-tier">Growth</div><div class="pr-price">$67<sub>/one-time</sub></div><div class="pr-desc">For serious builders</div><ul class="pr-feats"><li>8 DFY Ebooks (PLR + MRR)</li><li>3 Micro SaaS Tools</li><li>Full sales funnels</li><li>Canva template pack</li><li>Priority support</li></ul><button class="btn-pr" onclick="addToCart('Growth Bundle','bundle',67,'📦')">Get Growth →</button></div>
+    <div class="prc"><div class="pr-tier">Founder</div><div class="pr-price">$97<sub>/one-time</sub></div><div class="pr-desc">Complete founder arsenal</div><ul class="pr-feats"><li>All 26 DFY Ebooks</li><li>All 22 SaaS Tools</li><li>Private community</li><li>DFY ad creatives</li><li>Lifetime updates</li><li>1:1 onboarding call</li></ul><button class="btn-pr" onclick="addToCart('Founder Bundle','bundle',97,'🚀')">Get Founder →</button></div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="nl-sec"><div class="nl-inner"><h2>Digi.Supply — New Drops Weekly.</h2><p>Get first access to new SaaS tools and ebook drops. No spam.</p><div class="nl-form"><input type="email" placeholder="your@email.com"><button onclick="showToast('🎉 You\'re on the list!')">Subscribe</button></div></div></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fg">
+    <div class="fb"><div class="nav-logo">Digi<span style="color:var(--accent);">.Supply</span></div><p>Your one-stop supply chain for digital products. Micro SaaS tools, DFY ebooks, and everything you need to build and sell online.</p></div>
+    <div class="fc"><h4>Products</h4><ul><li><a href="#">Micro SaaS Tools</a></li><li><a href="#">DFY Ebooks</a></li><li><a href="#">Starter Bundles</a></li><li><a href="#">New Arrivals</a></li></ul></div>
+    <div class="fc"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Affiliates</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div class="fc"><h4>Support</h4><ul><li><a href="#">FAQ</a></li><li><a href="#">Refund Policy</a></li><li><a href="#">License Terms</a></li><li><a href="#">Help Desk</a></li></ul></div>
+  </div>
+  <div class="fbot"><span>© 2025 Digi.Supply · digisupply.store</span><span>🔒 Secure Checkout · Instant Delivery</span></div>
+</footer>
+
+<script>
+let cart=[];
+const getTotal=()=>cart.reduce((s,i)=>s+i.price,0);
+const getOrig=()=>cart.reduce((s,i)=>s+(i.price*2.2|0),0);
+
+function addToCart(name,type,price,icon){
+  if(cart.find(i=>i.name===name)){showToast('Already in cart!');openCart();return;}
+  cart.push({name,type,price,icon:icon||'📦'});
+  updateUI();showToast('✓ '+name+' added!');closePM();openCart();
+}
+function removeItem(i){cart.splice(i,1);updateUI();renderItems();}
+
+function updateUI(){
+  const n=cart.length;
+  const b=document.getElementById('cbadge');
+  b.textContent=n;b.classList.toggle('on',n>0);
+  document.getElementById('dCount').textContent=n>0?'('+n+' item'+(n>1?'s':'')+')'  :'';
+  document.getElementById('dFoot').style.display=n>0?'block':'none';
+  document.getElementById('cEmpty').style.display=n>0?'none':'flex';
+  document.getElementById('dTotal').textContent='$'+getTotal();
+  const save=getOrig()-getTotal();
+  document.getElementById('dSav').textContent=save>0?"You're saving $"+save+" on this order ✨":'';
+}
+
+function renderItems(){
+  const c=document.getElementById('dItems');
+  c.querySelectorAll('.citem').forEach(el=>el.remove());
+  cart.forEach((item,i)=>{
+    const d=document.createElement('div');d.className='citem';
+    d.innerHTML=`<div class="cico">${item.icon}</div><div class="cinfo"><div class="cname">${item.name}</div><div class="ctype">${item.type}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;"><div class="cprice">$${item.price}</div><button class="cremove" onclick="removeItem(${i})">Remove ✕</button></div>`;
+    c.appendChild(d);
+  });
+}
+
+function openCart(){renderItems();document.getElementById('dOverlay').classList.add('open');document.getElementById('cartDrawer').classList.add('open');}
+function closeCart(){document.getElementById('dOverlay').classList.remove('open');document.getElementById('cartDrawer').classList.remove('open');}
+
+function buildSummary(id){
+  const el=document.getElementById(id);
+  let h='';cart.forEach(i=>{h+=`<div class="co-sitem"><span>${i.icon} ${i.name}</span><span style="color:var(--accent);font-weight:700;">$${i.price}</span></div>`;});
+  h+=`<div class="co-stotal"><span>Total</span><span class="co-stprice">$${getTotal()}</span></div>`;
+  el.innerHTML=h;
+}
+
+function openCheckout(){if(!cart.length)return;closeCart();buildSummary('coSum1');document.getElementById('coOverlay').classList.add('open');resetSteps();}
+function closeCheckout(){document.getElementById('coOverlay').classList.remove('open');}
+
+function resetSteps(){
+  ['cs1','cs2','cs3','coSucc'].forEach((id,i)=>document.getElementById(id).style.display=i===0?'block':'none');
+  ['cst1','cst2','cst3'].forEach((id,i)=>{const el=document.getElementById(id);el.classList.toggle('active',i===0);el.classList.remove('done');});
+}
+
+function setStep(n){
+  ['cs1','cs2','cs3'].forEach((id,i)=>document.getElementById(id).style.display=i===n-1?'block':'none');
+  document.getElementById('coSucc').style.display='none';
+  ['cst1','cst2','cst3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    el.classList.toggle('active',i===n-1);
+    el.classList.toggle('done',i<n-1);
+    el.classList.remove(...(i>=n-1?['done']:[]));
+    if(i<n-1)el.classList.add('done');
+  });
+}
+
+function gS2(){
+  const name=document.getElementById('coName').value.trim();
+  const email=document.getElementById('coEmail').value.trim();
+  if(!name||!email){showToast('Please fill in all fields!');return;}
+  if(!email.includes('@')){showToast('Enter a valid email!');return;}
+  setStep(2);
+}
+function gS3(){
+  const card=document.getElementById('coCard').value.replace(/\s/g,'');
+  if(card.length<13){showToast('Enter a valid card number!');return;}
+  if(!document.getElementById('coExp').value.includes('/')){showToast('Enter expiry MM / YY!');return;}
+  buildSummary('coSum3');
+  document.getElementById('coConfEm').textContent=document.getElementById('coEmail').value;
+  setStep(3);
+}
+function gS1(){setStep(1);}
+function gS2back(){setStep(2);}
+
+function completeOrder(){
+  ['cs1','cs2','cs3'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('coSucc').style.display='block';
+  ['cst1','cst2','cst3'].forEach(el=>{document.getElementById(el).classList.remove('active');document.getElementById(el).classList.add('done');});
+}
+function resetCart(){cart=[];updateUI();renderItems();['coName','coEmail','coCard','coExp','coCVV','coCN','coSt'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+
+function fmtC(el){let v=el.value.replace(/\D/g,'').substring(0,16);el.value=v.replace(/(.{4})/g,'$1 ').trim();}
+function fmtE(el){let v=el.value.replace(/\D/g,'');if(v.length>=2)v=v.substring(0,2)+' / '+v.substring(2,4);el.value=v;}
+
+// Product Modal
+function openPM(title,type,price,icon,features){
+  const tmap={saas:'<span class="ptype ts">⚙️ Micro SaaS</span>',ebook:'<span class="ptype te">📖 DFY Ebook</span>',bundle:'<span class="ptype tb">📦 Bundle</span>'};
+  const dmap={saas:'Launch-ready source code with full docs and everything needed to ship and sell immediately.',ebook:'Fully written ebook with resale rights. Rebrand as yours and keep 100% of profits.',bundle:'Maximum value pack at a massive discount for digital founders ready to move fast.'};
+  document.getElementById('pmType').innerHTML=tmap[type]||'';
+  document.getElementById('pmTitle').textContent=title;
+  document.getElementById('pmDesc').textContent=dmap[type]||'';
+  document.getElementById('pmPrice').textContent='$'+price;
+  document.getElementById('pmFeats').innerHTML=features.map(f=>'<li>'+f+'</li>').join('');
+  document.getElementById('pmBuyBtn').onclick=()=>addToCart(title,type,price,icon);
+  document.getElementById('pmOverlay').classList.add('open');
+}
+function closePM(e){if(!e||e.target===document.getElementById('pmOverlay'))document.getElementById('pmOverlay').classList.remove('open');}
+
+// Filters
+function filterP(type,btn){
+  if(btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');}
+  else{document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('on',i===0);});}
+  document.querySelectorAll('.p-card').forEach(c=>{c.style.display=(type==='all'||c.dataset.type===type)?'':'none';});
+  document.getElementById('products').scrollIntoView({behavior:'smooth'});
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

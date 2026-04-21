@@ -138,6 +138,35 @@ section{padding:100px 5%;}
 .pbuy{background:var(--black);border:none;color:#fff;font-family:'DM Mono',monospace;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;padding:10px 18px;cursor:pointer;transition:all 0.2s;}
 .pbuy:hover{background:var(--accent);color:var(--black);}
 
+/* AI FACTORY SECTION */
+.factory-sec{background:var(--black);padding:100px 5%;}
+.factory-sec .sl2{color:var(--accent);}
+.factory-sec .st{color:#fff;}
+.factory-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:44px;background:rgba(255,255,255,0.06);}
+@media(max-width:768px){.factory-grid{grid-template-columns:1fr;}}
+.fc-card{background:var(--black);padding:32px;transition:background 0.25s;}
+.fc-card:hover{background:#0d0d0d;}
+.fc-card.full{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;background:#050505;}
+@media(max-width:768px){.fc-card.full{grid-column:span 1;grid-template-columns:1fr;}}
+.fc-ico{width:52px;height:52px;border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:18px;background:rgba(201,168,76,0.06);}
+.fc-title{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.25rem;color:#fff;margin-bottom:9px;letter-spacing:-0.01em;}
+.fc-desc{font-size:0.83rem;color:rgba(255,255,255,0.42);line-height:1.7;font-weight:300;margin-bottom:18px;}
+.fc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+.fc-tag{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.28);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);padding:3px 9px;}
+.fc-price{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.7rem;color:var(--accent);margin-bottom:3px;}
+.fc-sub{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px;}
+.fc-btn{background:var(--accent);color:var(--black);font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:12px 26px;border:none;cursor:pointer;transition:all 0.2s;display:inline-block;}
+.fc-btn:hover{background:var(--accent2);}
+.fc-btn2{background:transparent;color:var(--accent);font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;padding:12px 26px;border:1px solid rgba(201,168,76,0.35);cursor:pointer;transition:all 0.2s;display:inline-block;margin-left:10px;}
+.fc-btn2:hover{background:var(--accent);color:var(--black);}
+.fv{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);padding:24px;display:flex;flex-direction:column;}
+.fv-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.83rem;color:rgba(255,255,255,0.48);font-weight:300;}
+.fv-row:last-child{border-bottom:none;}
+.fv-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.fv-val{margin-left:auto;font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--accent);}
+.ai-badge{display:inline-flex;align-items:center;gap:7px;font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);padding:5px 14px;margin-bottom:20px;}
+.ai-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:pu 2s ease infinite;}
+
 /* FEATURED */
 .p-card.featured{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;background:var(--black);color:#fff;}
 .p-card.featured:hover{background:#111;}
@@ -404,7 +433,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:60px 5% 40px;}
     <li><a href="#products">Products</a></li>
     <li><a href="#categories">Categories</a></li>
     <li><a href="#pricing">Bundles</a></li>
-    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#factory">AI Factory</a></li><li><a href="#testimonials">Reviews</a></li>
   </ul>
   <div class="nav-r">
     <button class="cart-btn" onclick="openCart()">🛒<span class="cbadge" id="cbadge">0</span></button>
@@ -460,7 +489,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:60px 5% 40px;}
     <div class="cat-card" onclick="filterP('saas',null)"><span class="cat-em">⚙️</span><div class="cat-name">Micro SaaS Tools</div><div class="cat-n">22 Products</div></div>
     <div class="cat-card" onclick="filterP('ebook',null)"><span class="cat-em">📘</span><div class="cat-name">DFY Ebooks (PLR)</div><div class="cat-n">26 Products</div></div>
     <div class="cat-card" onclick="filterP('bundle',null)"><span class="cat-em">📦</span><div class="cat-name">Mega Bundles</div><div class="cat-n">6 Products</div></div>
-    <div class="cat-card"><span class="cat-em">🎓</span><div class="cat-name">Launch Courses</div><div class="cat-n">Coming Soon</div></div>
+    <div class="cat-card" onclick="document.getElementById('factory').scrollIntoView({behavior:'smooth'})"><span class="cat-em">🏭</span><div class="cat-name">AI Product Factory</div><div class="cat-n">New — AI Powered</div></div>
   </div>
 </section>
 
@@ -535,6 +564,99 @@ footer{background:#fff;border-top:1px solid var(--border);padding:60px 5% 40px;}
 
     <div class="p-card reveal" data-type="bundle"><span class="ptype tb">📦 Bundle</span><div class="pico">⚡</div><div class="ptitle">SaaS Builder Pack</div><div class="pdesc">5 launch-ready micro SaaS templates bundled at 70% off. WaitlistKit, ChatFlow, FormVault, LinkStack, BookMySlot.</div><div class="ptags"><span class="ptag">5 SaaS Tools</span><span class="ptag">Source Code</span><span class="ptag">70% Off</span></div><div class="pfoot"><div><span class="porig">$238</span><span class="pprice">$79</span></div><button class="pbuy" onclick="addToCart('SaaS Builder Pack','bundle',79,'⚡')">Add to Cart</button></div></div>
 
+  </div>
+</section>
+
+
+<!-- DIGITAL PRODUCT FACTORY -->
+<section class="factory-sec" id="factory">
+  <div class="ai-badge"><div class="ai-dot"></div> New Feature — AI Powered</div>
+  <div class="sl2">Digital Product Factory</div>
+  <div class="st" style="color:#fff;">Create. Sell. Automate.<br>All in One Place.</div>
+  <p style="color:rgba(255,255,255,0.4);font-weight:300;margin-top:12px;max-width:500px;font-size:0.95rem;line-height:1.7;">An AI-powered app inside Digi.Supply that generates ready-to-sell digital products in minutes — ebooks, planners, courses, templates — and lists them straight to your store.</p>
+
+  <div class="factory-grid reveal" style="margin-top:52px;">
+
+    <!-- MAIN FEATURE CARD -->
+    <div class="fc-card full">
+      <div>
+        <div class="ai-badge" style="margin-bottom:16px;"><div class="ai-dot"></div> AI Product Generator</div>
+        <div class="fc-title" style="font-size:1.8rem;margin-bottom:14px;">Digital Product Factory</div>
+        <div class="fc-desc" style="font-size:0.92rem;max-width:420px;">Tell the AI what topic you want to sell. It writes the ebook, designs the cover, builds the sales page, and lists it on your Digi.Supply store — in under 10 minutes. No writing. No design. No code.</div>
+        <div class="fc-tags">
+          <span class="fc-tag">AI Ebook Generator</span>
+          <span class="fc-tag">Store Builder</span>
+          <span class="fc-tag">Email Automation</span>
+          <span class="fc-tag">Ad Copy Generator</span>
+          <span class="fc-tag">Instant Marketplace Listing</span>
+        </div>
+        <div class="fc-price">$19<span style="font-family:'DM Mono',monospace;font-size:0.9rem;color:rgba(255,255,255,0.3);font-weight:300;">/mo</span></div>
+        <div class="fc-sub">Or $29/mo for unlimited products + revenue share</div>
+        <button class="fc-btn" onclick="addToCart('Digital Product Factory — Pro','saas',19,'🏭')">Get Early Access</button>
+        <button class="fc-btn2">See How It Works</button>
+      </div>
+      <div class="fv">
+        <div class="fv-row"><div class="fv-dot" style="background:#c9a84c;"></div><span>AI writes your ebook (any topic)</span><span class="fv-val">~3 min</span></div>
+        <div class="fv-row"><div class="fv-dot" style="background:#00b89c;"></div><span>Auto-generates cover + mockups</span><span class="fv-val">~1 min</span></div>
+        <div class="fv-row"><div class="fv-dot" style="background:#6c3ce1;"></div><span>Builds your sales page</span><span class="fv-val">~2 min</span></div>
+        <div class="fv-row"><div class="fv-dot" style="background:#ff6b4a;"></div><span>Lists it in the marketplace</span><span class="fv-val">instant</span></div>
+        <div class="fv-row"><div class="fv-dot" style="background:#c9a84c;"></div><span>Sends email campaign to buyers</span><span class="fv-val">auto</span></div>
+        <div class="fv-row"><div class="fv-dot" style="background:#00b89c;"></div><span>You collect the revenue</span><span class="fv-val">100%</span></div>
+      </div>
+    </div>
+
+    <!-- FEATURE 1 -->
+    <div class="fc-card">
+      <div class="fc-ico">✍️</div>
+      <div class="fc-title">AI Product Generator</div>
+      <div class="fc-desc">Enter a topic — AI writes a complete ebook, planner, guide, or template from scratch. 10,000–50,000 words, fully structured, ready to sell.</div>
+      <div class="fc-tags"><span class="fc-tag">Ebooks</span><span class="fc-tag">Planners</span><span class="fc-tag">Courses</span><span class="fc-tag">Templates</span></div>
+    </div>
+
+    <!-- FEATURE 2 -->
+    <div class="fc-card">
+      <div class="fc-ico">🏪</div>
+      <div class="fc-title">Instant Store Builder</div>
+      <div class="fc-desc">Every product you create gets its own landing page, sales copy, checkout link, and Stripe integration — automatically. Start selling the same day.</div>
+      <div class="fc-tags"><span class="fc-tag">Auto Sales Page</span><span class="fc-tag">Stripe Ready</span><span class="fc-tag">Custom Domain</span></div>
+    </div>
+
+    <!-- FEATURE 3 -->
+    <div class="fc-card">
+      <div class="fc-ico">📣</div>
+      <div class="fc-title">Marketing Automation</div>
+      <div class="fc-desc">AI writes your email sequences, social captions, and ad copy. Set up once — it runs your launches automatically while you focus on creating.</div>
+      <div class="fc-tags"><span class="fc-tag">Email Sequences</span><span class="fc-tag">Ad Copy</span><span class="fc-tag">Social Posts</span></div>
+    </div>
+
+    <!-- FEATURE 4 -->
+    <div class="fc-card">
+      <div class="fc-ico">🛒</div>
+      <div class="fc-title">Built-in Marketplace</div>
+      <div class="fc-desc">List your AI-generated products directly on Digi.Supply's marketplace and reach thousands of buyers already looking for digital products to purchase.</div>
+      <div class="fc-tags"><span class="fc-tag">Instant Listing</span><span class="fc-tag">Built-in Traffic</span><span class="fc-tag">Revenue Share</span></div>
+    </div>
+
+  </div>
+
+  <!-- PRICING STRIP -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:1px;background:rgba(255,255,255,0.06);" class="reveal">
+    <div style="background:#050505;padding:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:8px;">Starter Plan</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:2.4rem;color:#fff;">$10<span style="font-size:1rem;font-weight:400;color:rgba(255,255,255,0.3);font-family:'DM Mono',monospace;">/mo</span></div>
+        <div style="font-size:0.82rem;color:rgba(255,255,255,0.4);font-weight:300;margin-top:4px;">5 AI products/month · Basic store · Email support</div>
+      </div>
+      <button class="fc-btn" onclick="addToCart('Digital Product Factory — Starter','saas',10,'🏭')">Start Free Trial</button>
+    </div>
+    <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);padding:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">Pro Plan — Most Popular</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:2.4rem;color:#fff;">$29<span style="font-size:1rem;font-weight:400;color:rgba(255,255,255,0.3);font-family:'DM Mono',monospace;">/mo</span></div>
+        <div style="font-size:0.82rem;color:rgba(255,255,255,0.4);font-weight:300;margin-top:4px;">Unlimited products · Marketplace listing · Full automation</div>
+      </div>
+      <button class="fc-btn" onclick="addToCart('Digital Product Factory — Pro','saas',29,'🏭')">Get Pro Access</button>
+    </div>
   </div>
 </section>
 
